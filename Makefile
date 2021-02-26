@@ -1,16 +1,14 @@
 CC := clang
 CFLAGS := -g -Wall -Werror -fsanitize=address
 
-# Special settings for macOS users. This assumes you installed openssl with the brew package manager
-SYSTEM := $(shell uname -s)
-ifeq ($(SYSTEM),Darwin)
-  CFLAGS += -I$(shell brew --prefix openssl)/include -L$(shell brew --prefix openssl)/lib
-endif
+# Special flags to find libssl-dev includes
+CFLAGS += -I/home/curtsinger/.local/include
+LDFLAGS := -L/home/curtsinger/.local/lib
 
 all: password-cracker
 
 clean:
-	rm -rf password-cracker password-cracker.dSYM
+	rm -f password-cracker
 
 password-cracker: password-cracker.c
-	$(CC) $(CFLAGS) -o password-cracker password-cracker.c -lcrypto -lpthread -lm
+	$(CC) $(CFLAGS) -o password-cracker password-cracker.c $(LDFLAGS) -lcrypto -lpthread -lm
