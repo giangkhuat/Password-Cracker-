@@ -31,10 +31,6 @@ int check_hash_password(char *output, char *possible_guess, char *input_hash)
   uint8_t candidate_hash[MD5_DIGEST_LENGTH]; //< This will hold the hash of the candidate password
 
   MD5((unsigned char *)possible_guess, strlen(possible_guess), candidate_hash); //< Do the hash
-  if (strcmp("psswrd", possible_guess) == 0)
-  {
-    printf("psswrd found\n");
-  }
 
   // Now check if the hash of the candidate password matches the input hash
   if (memcmp((uint8_t *)input_hash, candidate_hash, MD5_DIGEST_LENGTH) == 0)
@@ -97,10 +93,7 @@ int crack_single_password(uint8_t *input_hash, char *output)
   // Initialize an index to start building the candidate password
   int index = 0;
   char possible_guess[7] = "";
-  printf("output before = %s\n", output);
   int found = generate_all_permutations(index, possible_guess, output, (char *)input_hash);
-  printf("output after = %s\n", output);
-  printf("found = %d\n", found);
   return found;
 }
 
